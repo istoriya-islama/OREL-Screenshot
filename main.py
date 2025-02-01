@@ -3,18 +3,22 @@ import random
 import cv2
 import pyautogui
 import numpy as np
+import json
 
 def main(page: ft.Page):
-    page.title = "Скриншот 1.1"
+    page.title = "Скриншот 2.0"
     page.theme_mode = "dark"
     page.vertical_alignment = ft.MainAxisAlignment.CENTER
-    page.window_height = '241'
+    page.window_height = '257'
     page.window_width = '394'
 
     texts = ft.Text("Скриншота нету")
-    textv = ft.Text("\t\t\t\t\t\t\t\t\t\t\t\t\t     Видео: нажмите на кнопку, \n а что-бы закончить видео закройте программу")
+    textv = ft.Text("\t\t\t\t\t\t\t\t\t\t\t\t\t     Видео: нажмите на кнопку, \n Когда вы закнотичите просто закройте\n\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t командную страку")
     def video(e):
-        videoname = f"C:/Users/istor/OneDrive/Работен плот/video→{random.randint(0, 10000)}.avi"
+        with open("src.json") as path:
+            pathSrc = json.load(path)
+        srcSave = pathSrc['path']
+        videoname = f"{srcSave}\\video→{random.randint(0, 10000)}.avi"
         screnSize = (1366, 768)
         fourcc = cv2.VideoWriter_fourcc(*'XVID')
         out = cv2.VideoWriter(videoname, fourcc, 30.0, (screnSize))
@@ -30,7 +34,10 @@ def main(page: ft.Page):
         page.update()
     def scr(e):
         scre = pyautogui.screenshot()
-        scre.save(f'C:/Users/istor/OneDrive/Работен плот/screenshot→{random.randint(0, 10000)}.png')
+        with open("src.json") as path:
+            pathSrc = json.load(path)
+        srcSave = pathSrc['path']
+        scre.save(f'{srcSave}\\screenshot→{random.randint(0, 10000)}.png')
         texts.value = "Скриншот есть он находится на Рабочем \n столе по именим → 'screenshot(1 и тд).png'"
         page.update()
     def theme(e):
@@ -40,7 +47,7 @@ def main(page: ft.Page):
         ft.Row(
             [
                 ft.IconButton(ft.icons.SUNNY, on_click=theme),
-                ft.Text("OREL Скриншот 1.1")
+                ft.Text("OREL Скриншот 2.0")
             ],
             alignment=ft.MainAxisAlignment.CENTER
         ),
